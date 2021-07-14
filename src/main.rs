@@ -1,39 +1,29 @@
-use std::fs::File;
-use std::io::{self, BufRead, BufReader};
+use std::io::{self, BufRead};
 use rand::Rng;
 
 fn main() {
     let mut prompt = String::new(); //Line the prompt will be stored in
 
-    let f = File::open("src/prompts.txt").expect("Unable to open file");
-    let counter = BufReader::new(f);
+    let mut prompts = include_str!("prompts.txt").trim();
 
     //Count the number of prompts
-    let mut number_of_prompts = 0;
-    for line in counter.lines() {
-        let _line = line.expect("Unable to read line");
-        //println!("{}", line);
-        number_of_prompts += 1;
+    while prompts.chars().last().unwrap() == '\n' {
+        prompts = prompts.trim_end();
     }
-    //println!("{}", number_of_prompts);
+    let number_of_prompts = prompts.matches('\n').count() + 1;
+    println!("{}", number_of_prompts);
 
     //Set prompt
     let mut rand = rand::thread_rng();
     let random_line = rand.gen_range(0..number_of_prompts);
     //println!("{}", random_line);
 
-    let f = File::open("src/prompts.txt").expect("Unable to open file");
-    let buffer = BufReader::new(f);
-
-    for (index, line) in buffer.lines().enumerate() {
-        let line = line.expect("Unable to read line");
-        //println!("{}", line);
-        if index == random_line {
-            prompt = line;
-            break;
+    let split_prompts = prompts.split('\n');
+    for (index, line) in split_prompts.enumerate() {
+        if random_line == index {
+            prompt = line.to_string();
         }
     }
-    //println!("{}", prompt);
 
     let mut player_answer = String::new();
     for c in prompt.chars() {
