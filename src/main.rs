@@ -81,6 +81,10 @@ fn main() {
         println!("Congratulations");
         println!("You Win");
     }
+
+    println!("Press any key to exit...");
+    let stdin = io::stdin();
+    let _ = stdin.lock().lines().next().unwrap().unwrap();
 }
 
 fn prt_hang_man(lives: i32) {
