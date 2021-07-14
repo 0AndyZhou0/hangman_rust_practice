@@ -11,7 +11,7 @@ fn main() {
     //Count the number of prompts
     let mut number_of_prompts = 0;
     for line in counter.lines() {
-        let line = line.expect("Unable to read line");
+        let _line = line.expect("Unable to read line");
         //println!("{}", line);
         number_of_prompts += 1;
     }
