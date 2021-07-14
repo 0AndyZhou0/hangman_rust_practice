@@ -3,18 +3,31 @@ use std::io::{self, BufRead, BufReader};
 use rand::Rng;
 
 fn main() {
-    //Set prompt
-    let mut rand = rand::thread_rng();
-    let random_line = rand.gen_range(0..4);
-    //println!("{}", random_line);
-
     let mut prompt = String::new(); //Line the prompt will be stored in
 
     let f = File::open("src/prompts.txt").expect("Unable to open file");
-    let f = BufReader::new(f);
+    let counter = BufReader::new(f);
 
-    for (index, line) in f.lines().enumerate() {
+    //Count the number of prompts
+    let mut number_of_prompts = 0;
+    for line in counter.lines() {
         let line = line.expect("Unable to read line");
+        //println!("{}", line);
+        number_of_prompts += 1;
+    }
+    //println!("{}", number_of_prompts);
+
+    //Set prompt
+    let mut rand = rand::thread_rng();
+    let random_line = rand.gen_range(0..number_of_prompts);
+    //println!("{}", random_line);
+
+    let f = File::open("src/prompts.txt").expect("Unable to open file");
+    let buffer = BufReader::new(f);
+
+    for (index, line) in buffer.lines().enumerate() {
+        let line = line.expect("Unable to read line");
+        //println!("{}", line);
         if index == random_line {
             prompt = line;
             break;
