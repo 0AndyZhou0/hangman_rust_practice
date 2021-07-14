@@ -65,7 +65,7 @@ fn main() {
 
         prt_hang_man(lives);
 
-        if lives == 0 {
+        if lives <= 0 {
             break;
         }
 
@@ -74,7 +74,7 @@ fn main() {
         }
     }
 
-    if lives == 0 {
+    if lives <= 0 {
         println!("Game Over");
         println!("You Lose");
     } else {
